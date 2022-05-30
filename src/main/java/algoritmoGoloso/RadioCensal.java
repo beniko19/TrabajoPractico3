@@ -5,10 +5,10 @@ import grafos.GrafoVecinos;
 import java.util.ArrayList;
 
 public class RadioCensal {
-    private GrafoVecinos _grafoVecinos;
-    private ArrayList<Cencista> _cencistas;
-    private ArrayList<Integer> _manzanasConCensitas;
-    private int _cencistaActual;
+    GrafoVecinos _grafoVecinos;
+    ArrayList<Cencista> _cencistas;
+    ArrayList<Integer> _manzanasConCensitas;
+    int _cencistaActual;
 
     public RadioCensal(GrafoVecinos grafoVecinos, ArrayList<Cencista> cencistas){
         _grafoVecinos = grafoVecinos;
@@ -18,7 +18,7 @@ public class RadioCensal {
     }
 
     public void asignarCensistasAManzanas(){
-        while ((_manzanasConCensitas.size() != _grafoVecinos.tamano()) || (_cencistaActual < _cencistas.size())){
+        while (isSameSizeGraphWithSquares() || isCenistaAvailable()){
             for (int manzanaActual = 0; manzanaActual < _grafoVecinos.tamano(); manzanaActual++) {
                 asignarManzanaACensista(manzanaActual);
             }
@@ -26,7 +26,15 @@ public class RadioCensal {
         }
     }
 
-    private void asignarManzanaACensista(int manzanaActual) {
+    boolean isCenistaAvailable() {
+        return _cencistaActual < _cencistas.size();
+    }
+
+    boolean isSameSizeGraphWithSquares() {
+        return _manzanasConCensitas.size() != _grafoVecinos.tamano();
+    }
+
+    void asignarManzanaACensista(int manzanaActual) {
         if (!censistaTieneManzanaAsignada(_cencistaActual) && !_manzanasConCensitas.contains(manzanaActual)){
             _cencistas.get(_cencistaActual).asignarManzana(manzanaActual);
             _manzanasConCensitas.add(manzanaActual);
@@ -42,7 +50,7 @@ public class RadioCensal {
 
     }
 
-    private boolean manzanaAsignadaComparteCalle(int manzanaActual) {
+    boolean manzanaAsignadaComparteCalle(int manzanaActual) {
         boolean flag = false;
         ArrayList<Integer> manzanasAsignadas =_cencistas.get(_cencistaActual).conocerManzanasAsignadas();
         for (int i = 0; i < manzanasAsignadas.size(); i++) {
@@ -52,11 +60,11 @@ public class RadioCensal {
         return flag;
     }
 
-    private boolean censistaTieneLugarParaManzana(int cencistaActual) {
+    boolean censistaTieneLugarParaManzana(int cencistaActual) {
         return _cencistas.get(cencistaActual).cantDeManzanasAsignadas() < 3;
     }
 
-    private boolean censistaTieneManzanaAsignada(int cencistaActual) {
+    boolean censistaTieneManzanaAsignada(int cencistaActual) {
         return _cencistas.get(cencistaActual).tieneManzanaAsignada();
     }
 
