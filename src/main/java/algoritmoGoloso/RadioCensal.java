@@ -20,7 +20,7 @@ public class RadioCensal {
     }
 
     public void asignarCensistasAManzanas(){
-        while (isSameSizeGraphWithSquares() || hayCenistaAvailable()){
+        while (isNotSameSizeGraphWithSquares() && hayCenistaAvailable()){
             Stream.iterate(0, n -> n + 1).limit(_grafoVecinos.tamano())
                     .forEach(this::asignarManzanaACensista);
             /*for (int manzanaActual = 0; manzanaActual < _grafoVecinos.tamano(); manzanaActual++) {
@@ -34,7 +34,7 @@ public class RadioCensal {
         return _cencistaActual < _cencistas.size();
     }
 
-    boolean isSameSizeGraphWithSquares() {
+    boolean isNotSameSizeGraphWithSquares() {
         return _manzanasConCensitas.size() != _grafoVecinos.tamano();
     }
 

@@ -43,7 +43,7 @@ class RadioCensalTest {
 
     @Test
     boolean isSameSizeGraphWithSquares(){
-        return radioCensal.isSameSizeGraphWithSquares();
+        return radioCensal.isNotSameSizeGraphWithSquares();
     }
 
     @Test
