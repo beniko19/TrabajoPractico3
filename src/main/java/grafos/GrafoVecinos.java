@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class GrafoVecinos {
     private ArrayList<HashSet<Integer>> verticesConVecinos;
@@ -13,8 +14,11 @@ public class GrafoVecinos {
     public GrafoVecinos(int vertices) {
         this.verticesConVecinos = new ArrayList<HashSet<Integer>>();
         this.aristas = new ArrayList<HashMap<Integer, Integer>>();
-        IntStream _vertices = IntStream.range(0, vertices);
-        _vertices.forEach(vertice -> {
+        /*IntStream.range(0, vertices).forEach(vertice -> {
+            verticesConVecinos.add(new HashSet<Integer>());
+            aristas.add(new HashMap<Integer, Integer>());
+        });*/
+        Stream.iterate(0, n -> n + 1).limit(vertices).forEach(vertice -> {
             verticesConVecinos.add(new HashSet<Integer>());
             aristas.add(new HashMap<Integer, Integer>());
         });
@@ -85,8 +89,7 @@ public class GrafoVecinos {
         String[][] grafo = new String[(this.tamano()-1)*2][3];
         final int[] x = {0};
         //INICIAMOS UN FOR QUE RECORRA LOS VERTICES DEL GRAFO.
-        IntStream vertices = IntStream.range(0, tamano()).limit(tamano());
-        vertices.forEach(vertice -> {
+        IntStream.range(0, tamano()).limit(tamano()).forEach(vertice -> {
             HashSet<Integer> vecinos = this.obtenerVecinos(vertice);
             Iterator<Integer> iteratorVecinos = vecinos.iterator();
             while (iteratorVecinos.hasNext()){
@@ -97,6 +100,7 @@ public class GrafoVecinos {
                 x[0]++;
             }
         });
+
         /*for (int i = 0; i < this.tamano(); i++) {
             HashSet<Integer> vecinos = this.obtenerVecinos(i);
             Iterator<Integer> iteratorVecinos = vecinos.iterator();

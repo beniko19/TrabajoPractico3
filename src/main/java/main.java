@@ -11,8 +11,8 @@ public class main {
 
         GrafoVecinos grafoVecinos = ManejoJSON.leerJSON(new File("pruebaManejoJSON.json"));
         ArrayList<Cencista> cencistas = new ArrayList<>();
-        Stream<Integer> streamAuxiliar = Stream.iterate(0, n -> n +1).limit(grafoVecinos.tamano());
-        streamAuxiliar.forEach(grafoTamanio -> cencistas.add(new Cencista()));
+        Stream.iterate(0, n -> n +1).limit(grafoVecinos.tamano()).forEach(grafoTamanio -> cencistas.add(new Cencista()));
+
         /*for (int i = 0; i < grafoVecinos.tamano(); i++) {
             cencistas.add(new Cencista());
         }*/
@@ -24,6 +24,6 @@ public class main {
             System.out.println(radioCensal.getCensistas().get(i).toString());
         }*/
 
-        cencistas.stream().forEach(cencista -> System.out.println(cencista.toString()));
+        cencistas.stream().forEach(System.out::println);
     }
 }

@@ -21,8 +21,8 @@ public class RadioCensal {
 
     public void asignarCensistasAManzanas(){
         while (isSameSizeGraphWithSquares() || hayCenistaAvailable()){
-            Stream<Integer> manzanas = Stream.iterate(0, n -> n + 1).limit(_grafoVecinos.tamano());
-            manzanas.forEach(manzanaActual -> asignarManzanaACensista(manzanaActual));
+            Stream.iterate(0, n -> n + 1).limit(_grafoVecinos.tamano())
+                    .forEach(this::asignarManzanaACensista);
             /*for (int manzanaActual = 0; manzanaActual < _grafoVecinos.tamano(); manzanaActual++) {
                 asignarManzanaACensista(manzanaActual);
             }*/

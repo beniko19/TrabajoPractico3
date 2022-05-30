@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,9 +20,11 @@ class CencistaTest {
         Cencista.resetearID();
         GrafoVecinos grafoVecinos = ManejoJSON.leerJSON(new File("pruebaManejoJSON.json"));
         cencistas = new ArrayList<>();
-        for (int i = 0; i < grafoVecinos.tamano(); i++) {
+        IntStream.range(0, grafoVecinos.tamano()).limit(grafoVecinos.tamano())
+                .forEach(vertice -> cencistas.add(new Cencista()));
+        /*for (int i = 0; i < grafoVecinos.tamano(); i++) {
             cencistas.add(new Cencista());
-        }
+        }*/
     }
 
     @Test

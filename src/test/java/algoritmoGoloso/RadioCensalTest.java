@@ -19,8 +19,8 @@ class RadioCensalTest {
     private void inicilizarObjetos(){
         GrafoVecinos grafoVecinos = ManejoJSON.leerJSON(new File("pruebaManejoJSON.json"));
         cencistas = new ArrayList<>();
-        Stream<Integer> streamAuxiliar = Stream.iterate(0, n -> n +1).limit(grafoVecinos.tamano());
-        streamAuxiliar.forEach(grafoTamanio -> cencistas.add(new Cencista()));
+        Stream.iterate(0, n -> n +1).limit(grafoVecinos.tamano())
+                .forEach(grafoTamanio -> cencistas.add(new Cencista()));
         /*for (int i = 0; i < grafoVecinos.tamano(); i++) {
             cencistas.add(new Cencista());
         }*/
@@ -82,8 +82,7 @@ class RadioCensalTest {
 
     private void asignarManzanaACensitaAux(int censita, int cantManzanas) {
         radioCensal._cencistaActual = censita;
-        IntStream manzanas = IntStream.range(0, cantManzanas).limit(cantManzanas);
-        manzanas.forEach(manzana -> cencistas.get(censita).asignarManzana(manzana));
+        IntStream.range(0, cantManzanas).limit(cantManzanas).forEach(manzana -> cencistas.get(censita).asignarManzana(manzana));
         /*for (int i = 0; i < cantManzanas; i++) {
             cencistas.get(censita).asignarManzana(i);
         }*/
