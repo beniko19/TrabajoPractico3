@@ -39,6 +39,10 @@ public class GrafoVecinos {
         }
     }
 
+    public void agregarVecino(int vertice, int vecino){
+
+    }
+
     public int pesoArista(int vertice, int vecino){
         verificarVertice(vertice);
         verificarVertice(vecino);

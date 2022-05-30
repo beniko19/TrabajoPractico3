@@ -83,4 +83,8 @@ public class RadioCensal {
     public ArrayList<Cencista> getCensistas() {
         return _cencistas;
     }
+
+    public Cencista getCencista(int censita){
+        return this._cencistas.get(censita);
+    }
 }
