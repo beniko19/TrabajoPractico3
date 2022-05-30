@@ -28,13 +28,13 @@ public class RadioCensal {
 
     private void asignarManzanaACensista(int manzanaActual) {
         if (!censistaTieneManzanaAsignada(_cencistaActual) && !_manzanasConCensitas.contains(manzanaActual)){
-            _cencistas.get(_cencistaActual).asignarManzanas(manzanaActual);
+            _cencistas.get(_cencistaActual).asignarManzana(manzanaActual);
             _manzanasConCensitas.add(manzanaActual);
         }
         else {
             if (censistaTieneLugarParaManzana(_cencistaActual)){
                 if (manzanaAsignadaComparteCalle(manzanaActual) && !_manzanasConCensitas.contains(manzanaActual)){
-                    _cencistas.get(_cencistaActual).asignarManzanas(manzanaActual);
+                    _cencistas.get(_cencistaActual).asignarManzana(manzanaActual);
                     _manzanasConCensitas.add(manzanaActual);
                 }
             }

@@ -25,7 +25,7 @@ public class Cencista {
         return id;
     }
 
-    public void asignarManzanas(int manzana){
+    public void asignarManzana(int manzana){
         _manzanas.add(manzana);
         _manzanaAsignada = true;
     }
@@ -39,5 +39,9 @@ public class Cencista {
         StringBuilder toString = new StringBuilder();
         toString.append("ID: ").append(id).append("\n").append("Manzanas Asignadas: ").append(_manzanas.toString());
         return toString.toString();
+    }
+
+    public static void resetearID(){
+        _id = 0;
     }
 }
