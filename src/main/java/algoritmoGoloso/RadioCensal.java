@@ -3,6 +3,8 @@ package algoritmoGoloso;
 import grafos.GrafoVecinos;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Stream;
 
 public class RadioCensal {
     GrafoVecinos _grafoVecinos;
@@ -18,15 +20,17 @@ public class RadioCensal {
     }
 
     public void asignarCensistasAManzanas(){
-        while (isSameSizeGraphWithSquares() || isCenistaAvailable()){
-            for (int manzanaActual = 0; manzanaActual < _grafoVecinos.tamano(); manzanaActual++) {
+        while (isSameSizeGraphWithSquares() || hayCenistaAvailable()){
+            Stream<Integer> manzanas = Stream.iterate(0, n -> n + 1).limit(_grafoVecinos.tamano());
+            manzanas.forEach(manzanaActual -> asignarManzanaACensista(manzanaActual));
+            /*for (int manzanaActual = 0; manzanaActual < _grafoVecinos.tamano(); manzanaActual++) {
                 asignarManzanaACensista(manzanaActual);
-            }
+            }*/
             _cencistaActual++;
         }
     }
 
-    boolean isCenistaAvailable() {
+    boolean hayCenistaAvailable() {
         return _cencistaActual < _cencistas.size();
     }
 
@@ -47,17 +51,21 @@ public class RadioCensal {
                 }
             }
         }
-
     }
 
     boolean manzanaAsignadaComparteCalle(int manzanaActual) {
-        boolean flag = false;
+        AtomicBoolean flag = new AtomicBoolean(false);
         ArrayList<Integer> manzanasAsignadas =_cencistas.get(_cencistaActual).conocerManzanasAsignadas();
-        for (int i = 0; i < manzanasAsignadas.size(); i++) {
+        manzanasAsignadas.stream().forEach(m -> {
+            if (_grafoVecinos.sonVecinos(manzanaActual, m)) {
+                flag.set(true);
+            }
+        });
+        /*for (int i = 0; i < manzanasAsignadas.size(); i++) {
             if (_grafoVecinos.sonVecinos(manzanaActual, manzanasAsignadas.get(i)))
-                flag = true;
-        }
-        return flag;
+                flag.set(true);
+        }*/
+        return flag.get();
     }
 
     boolean censistaTieneLugarParaManzana(int cencistaActual) {

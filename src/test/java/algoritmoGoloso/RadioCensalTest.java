@@ -1,13 +1,13 @@
 package algoritmoGoloso;
 
 import app.ManejoJSON;
-import com.sun.source.tree.AssertTree;
 import grafos.GrafoVecinos;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,9 +19,11 @@ class RadioCensalTest {
     private void inicilizarObjetos(){
         GrafoVecinos grafoVecinos = ManejoJSON.leerJSON(new File("pruebaManejoJSON.json"));
         cencistas = new ArrayList<>();
-        for (int i = 0; i < grafoVecinos.tamano(); i++) {
+        Stream<Integer> streamAuxiliar = Stream.iterate(0, n -> n +1).limit(grafoVecinos.tamano());
+        streamAuxiliar.forEach(grafoTamanio -> cencistas.add(new Cencista()));
+        /*for (int i = 0; i < grafoVecinos.tamano(); i++) {
             cencistas.add(new Cencista());
-        }
+        }*/
         radioCensal = new RadioCensal(grafoVecinos, cencistas);
 
     }
@@ -36,7 +38,7 @@ class RadioCensalTest {
 
     @Test
     boolean isCenistaAvailable(){
-        return radioCensal.isCenistaAvailable();
+        return radioCensal.hayCenistaAvailable();
     }
 
     @Test
@@ -80,8 +82,10 @@ class RadioCensalTest {
 
     private void asignarManzanaACensitaAux(int censita, int cantManzanas) {
         radioCensal._cencistaActual = censita;
-        for (int i = 0; i < cantManzanas; i++) {
+        IntStream manzanas = IntStream.range(0, cantManzanas).limit(cantManzanas);
+        manzanas.forEach(manzana -> cencistas.get(censita).asignarManzana(manzana));
+        /*for (int i = 0; i < cantManzanas; i++) {
             cencistas.get(censita).asignarManzana(i);
-        }
+        }*/
     }
 }
