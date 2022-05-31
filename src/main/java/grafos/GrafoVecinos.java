@@ -14,18 +14,20 @@ public class GrafoVecinos {
     public GrafoVecinos(int vertices) {
         this.verticesConVecinos = new ArrayList<HashSet<Integer>>();
         this.aristas = new ArrayList<HashMap<Integer, Integer>>();
-        /*IntStream.range(0, vertices).forEach(vertice -> {
-            verticesConVecinos.add(new HashSet<Integer>());
-            aristas.add(new HashMap<Integer, Integer>());
-        });*/
         Stream.iterate(0, n -> n + 1).limit(vertices).forEach(vertice -> {
             verticesConVecinos.add(new HashSet<Integer>());
             aristas.add(new HashMap<Integer, Integer>());
         });
-        /*for (int i = 0; i < vertices; ++i) {
-            this.verticesConVecinos.add(new HashSet<Integer>());
-            this.aristas.add(new HashMap<Integer, Integer>());
-        }*/
+    }
+
+    public GrafoVecinos(){
+        this.verticesConVecinos = new ArrayList<HashSet<Integer>>();
+        this.aristas = new ArrayList<HashMap<Integer, Integer>>();
+    }
+
+    public void agregarVertice(){
+        verticesConVecinos.add(new HashSet<>());
+        aristas.add(new HashMap<Integer, Integer>());
     }
 
     public void agregarVecino(int vertice, int vecino, int peso) {
@@ -40,7 +42,12 @@ public class GrafoVecinos {
     }
 
     public void agregarVecino(int vertice, int vecino){
-
+        verificarVertice(vertice);
+        verificarVertice(vecino);
+        if (!sonVecinos(vertice, vecino)) {
+            this.verticesConVecinos.get(vertice).add(vecino);
+            this.verticesConVecinos.get(vecino).add(vertice);
+        }
     }
 
     public int pesoArista(int vertice, int vecino){

@@ -19,6 +19,12 @@ public class RadioCensal {
         _cencistaActual = 0;
     }
 
+    public RadioCensal (GrafoVecinos grafoVecinos, int cantCensitas){
+        _grafoVecinos = grafoVecinos;
+        _cencistas = new ArrayList<>();
+        Stream.iterate(0, n -> n +1).limit(cantCensitas).forEach(censita -> _cencistas.add(new Cencista()));
+    }
+
     public void asignarCensistasAManzanas(){
         while (isNotSameSizeGraphWithSquares() && hayCenistaAvailable()){
             Stream.iterate(0, n -> n + 1).limit(_grafoVecinos.tamano())
@@ -86,5 +92,9 @@ public class RadioCensal {
 
     public Cencista getCencista(int censita){
         return this._cencistas.get(censita);
+    }
+
+    public ArrayList<Integer> obtenerManzanasAsignadasDeCencista(int cencista){
+        return _cencistas.get(cencista).conocerManzanasAsignadas();
     }
 }
