@@ -11,12 +11,13 @@ public class RadioCensal {
     ArrayList<Cencista> _cencistas;
     ArrayList<Integer> _manzanasConCensitas;
     int _cencistaAsignados;
-
+    int _cencistaActual;
     public RadioCensal(GrafoVecinos grafoVecinos, ArrayList<Cencista> cencistas){
         _grafoVecinos = grafoVecinos;
         _cencistas = cencistas;
         _manzanasConCensitas = new ArrayList<>();
         _cencistaAsignados = 0;
+        _cencistaActual = 0;
     }
 
     public RadioCensal (GrafoVecinos grafoVecinos, int cantCensitas){
@@ -26,13 +27,8 @@ public class RadioCensal {
     }
 
     public void asignarCensistasAManzanas(){
-        while (isNotSameSizeGraphWithSquares() && hayCenistaAvailable()){
-            Stream.iterate(0, n -> n + 1).limit(_grafoVecinos.tamano())
-                    .forEach(this::asignarManzanaACensista);
-            /*for (int manzanaActual = 0; manzanaActual < _grafoVecinos.tamano(); manzanaActual++) {
-                asignarManzanaACensista(manzanaActual);
-            }*/
-        }
+        while (isNotSameSizeGraphWithSquares() && hayCenistaAvailable())
+            Stream.iterate(0, n -> n + 1).limit(_grafoVecinos.tamano()).forEach(this::asignarManzanaACensista);
     }
 
     boolean hayCenistaAvailable() {
@@ -44,24 +40,30 @@ public class RadioCensal {
     }
 
     void asignarManzanaACensista(int manzanaActual) {
-        if (!censistaTieneManzanaAsignada(_cencistaAsignados) && !_manzanasConCensitas.contains(manzanaActual)){
-            _cencistas.get(_cencistaAsignados).asignarManzana(manzanaActual);
+        if (!censistaTieneManzanaAsignada(_cencistaActual) && !_manzanasConCensitas.contains(manzanaActual)){
+            _cencistas.get(_cencistaActual).asignarManzana(manzanaActual);
             _manzanasConCensitas.add(manzanaActual);
             _cencistaAsignados++;
         }
         else {
-            if (censistaTieneLugarParaManzana(_cencistaAsignados)){
+            if (censistaTieneLugarParaManzana(_cencistaActual)){
                 if (manzanaAsignadaComparteCalle(manzanaActual) && !_manzanasConCensitas.contains(manzanaActual)){
-                    _cencistas.get(_cencistaAsignados).asignarManzana(manzanaActual);
+                    _cencistas.get(_cencistaActual).asignarManzana(manzanaActual);
                     _manzanasConCensitas.add(manzanaActual);
                 }
             }
+            else{
+                _cencistaActual++;
+                asignarManzanaACensista(manzanaActual);
+            }
+
+
         }
     }
 
     boolean manzanaAsignadaComparteCalle(int manzanaActual) {
         AtomicBoolean flag = new AtomicBoolean(false);
-        ArrayList<Integer> manzanasAsignadas =_cencistas.get(_cencistaAsignados).conocerManzanasAsignadas();
+        ArrayList<Integer> manzanasAsignadas =_cencistas.get(_cencistaActual).conocerManzanasAsignadas();
         manzanasAsignadas.stream().forEach(m -> {
             if (_grafoVecinos.sonVecinos(manzanaActual, m)) {
                 flag.set(true);

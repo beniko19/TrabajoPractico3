@@ -32,7 +32,7 @@ class RadioCensalTest {
     void asignarCensistasAManzanas() {
         inicilizarObjetos();
         radioCensal.asignarCensistasAManzanas();
-        assertFalse(isCenistaAvailable());
+        assertTrue(isCenistaAvailable());
         assertFalse(isSameSizeGraphWithSquares());
     }
 
@@ -50,7 +50,7 @@ class RadioCensalTest {
     void asignarManzanaACensista() {
         inicilizarObjetos();
         int censitaActual = 2;
-        radioCensal._cencistaAsignados = censitaActual;
+        radioCensal._cencistaActual = censitaActual;
         radioCensal.asignarManzanaACensista(4); // al censita numero X le agrego Y manzana
         assertTrue(cencistas.get(2).tieneManzanaAsignada());
     }
@@ -81,7 +81,7 @@ class RadioCensalTest {
     }
 
     private void asignarManzanaACensitaAux(int censita, int cantManzanas) {
-        radioCensal._cencistaAsignados = censita;
+        radioCensal._cencistaActual = censita;
         IntStream.range(0, cantManzanas).limit(cantManzanas).forEach(manzana -> cencistas.get(censita).asignarManzana(manzana));
         /*for (int i = 0; i < cantManzanas; i++) {
             cencistas.get(censita).asignarManzana(i);
