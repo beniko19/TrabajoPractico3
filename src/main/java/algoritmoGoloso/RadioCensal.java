@@ -28,11 +28,14 @@ public class RadioCensal {
 
     public void asignarCensistasAManzanas(){
         while (isNotSameSizeGraphWithSquares() && hayCenistaAvailable())
-            Stream.iterate(0, n -> n + 1).limit(_grafoVecinos.tamano()).forEach(this::asignarManzanaACensista);
+            if (_grafoVecinos.tamano() < _cencistas.size())
+                Stream.iterate(0, n -> n + 1).limit(_grafoVecinos.tamano()).forEach(this::asignarManzanaACensista);
+            else
+                Stream.iterate(0, n -> n + 1).limit(_cencistas.size()).forEach(this::asignarManzanaACensista);
     }
 
     boolean hayCenistaAvailable() {
-        return _cencistaAsignados < _cencistas.size();
+        return !(_cencistaActual >= _cencistas.size());
     }
 
     boolean isNotSameSizeGraphWithSquares() {
@@ -40,6 +43,8 @@ public class RadioCensal {
     }
 
     void asignarManzanaACensista(int manzanaActual) {
+        if (_cencistaActual >= _cencistas.size())
+            return;
         if (!censistaTieneManzanaAsignada(_cencistaActual) && !_manzanasConCensitas.contains(manzanaActual)){
             _cencistas.get(_cencistaActual).asignarManzana(manzanaActual);
             _manzanasConCensitas.add(manzanaActual);
@@ -50,6 +55,10 @@ public class RadioCensal {
                 if (manzanaAsignadaComparteCalle(manzanaActual) && !_manzanasConCensitas.contains(manzanaActual)){
                     _cencistas.get(_cencistaActual).asignarManzana(manzanaActual);
                     _manzanasConCensitas.add(manzanaActual);
+                }
+                else {
+                    _cencistaActual++;
+                    asignarManzanaACensista(manzanaActual);
                 }
             }
             else{
@@ -69,10 +78,6 @@ public class RadioCensal {
                 flag.set(true);
             }
         });
-        /*for (int i = 0; i < manzanasAsignadas.size(); i++) {
-            if (_grafoVecinos.sonVecinos(manzanaActual, manzanasAsignadas.get(i)))
-                flag.set(true);
-        }*/
         return flag.get();
     }
 
@@ -82,10 +87,6 @@ public class RadioCensal {
 
     boolean censistaTieneManzanaAsignada(int cencistaActual) {
         return _cencistas.get(cencistaActual).tieneManzanaAsignada();
-    }
-
-    public String getCensitasConManzanasAsignadas(){
-        return _cencistas.toString();
     }
 
     public ArrayList<Cencista> getCensistas() {

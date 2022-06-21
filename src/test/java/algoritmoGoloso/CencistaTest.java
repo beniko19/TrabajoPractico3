@@ -22,9 +22,6 @@ class CencistaTest {
         cencistas = new ArrayList<>();
         IntStream.range(0, grafoVecinos.tamano()).limit(grafoVecinos.tamano())
                 .forEach(vertice -> cencistas.add(new Cencista()));
-        /*for (int i = 0; i < grafoVecinos.tamano(); i++) {
-            cencistas.add(new Cencista());
-        }*/
     }
 
     @Test
